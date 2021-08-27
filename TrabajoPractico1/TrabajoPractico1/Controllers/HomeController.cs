@@ -3,7 +3,11 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using TrabajoPractico1.Models;
 
@@ -29,6 +33,11 @@ namespace TrabajoPractico1.Controllers
         }
 
         public IActionResult Problema2()
+        {
+            return View();
+        }
+
+        public IActionResult Problema3()
         {
             return View();
         }
@@ -88,11 +97,96 @@ namespace TrabajoPractico1.Controllers
 
         }
 
+        public string ConsumirAPI()
+        {
+            var url = $"https://apis.datos.gob.ar/georef/api/provincias?campos=id,nombre";
+            var request = (HttpWebRequest)WebRequest.Create(url);
 
+            request.Method = "GET";
+            request.ContentType = "application/json";
+            request.Accept = "application/json";
+
+            ProvinciasArgentina ProvinciasArg;
+            ProvinciasArg = null;
+            string listaProvincias = "";
+
+            try
+            {
+                using (WebResponse response = request.GetResponse())
+                {
+                    using (Stream strReader = response.GetResponseStream())
+                    {
+                        if (strReader != null)
+                        {
+                            using (StreamReader objReader = new StreamReader(strReader))
+                            {
+                                string responseBody = objReader.ReadToEnd();
+                                ProvinciasArg = JsonSerializer.Deserialize<ProvinciasArgentina>(responseBody);
+                            }
+
+                            for(int i = 0; i < ProvinciasArg.Cantidad; i++)
+                            {
+                                listaProvincias += " ID " + ProvinciasArg.Provincias[i].Id + "| " + ProvinciasArg.Provincias[i].Nombre + "\n";
+                            }
+                        }
+                    }
+                }
+
+                return listaProvincias;
+            }
+            catch (WebException)
+            {
+                return "#Error No se pudo acceder a la red";
+            }
+            catch(Exception ex)
+            {
+                return $"#ERROR {ex.Message}";
+            }
+        }
+
+        // CONSUMO DE API
+        public class Parametros
+        {
+            [JsonPropertyName("campos")]
+            public List<string> Campos { get; set; }
+        }
+
+        public class Provincia
+        {
+            [JsonPropertyName("id")]
+            public string Id { get; set; }
+
+            [JsonPropertyName("nombre")]
+            public string Nombre { get; set; }
+        }
+
+        public class ProvinciasArgentina
+        {
+            [JsonPropertyName("cantidad")]
+            public int Cantidad { get; set; }
+
+            [JsonPropertyName("inicio")]
+            public int Inicio { get; set; }
+
+            [JsonPropertyName("parametros")]
+            public Parametros Parametros { get; set; }
+
+            [JsonPropertyName("provincias")]
+            public List<Provincia> Provincias { get; set; }
+
+            [JsonPropertyName("total")]
+            public int Total { get; set; }
+        }
+
+        
+        
+        
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
     }
 }
