@@ -38,3 +38,4 @@ D:\Facultad\2021\2do cuatrimestre\Taller de Lenguajes II\tp01-20221-sofiaberrett
 D:\Facultad\2021\2do cuatrimestre\Taller de Lenguajes II\tp01-20221-sofiaberretta\TrabajoPractico1\TrabajoPractico1\obj\Debug\net5.0\TrabajoPractico1.pdb
 D:\Facultad\2021\2do cuatrimestre\Taller de Lenguajes II\tp01-20221-sofiaberretta\TrabajoPractico1\TrabajoPractico1\obj\Debug\net5.0\TrabajoPractico1.genruntimeconfig.cache
 D:\Facultad\2021\2do cuatrimestre\Taller de Lenguajes II\tp01-20221-sofiaberretta\TrabajoPractico1\TrabajoPractico1\obj\Debug\net5.0\TrabajoPractico1.csproj.CopyComplete
+D:\Facultad\2021\2do cuatrimestre\Taller de Lenguajes II\tp01-20221-sofiaberretta\TrabajoPractico1\TrabajoPractico1\obj\Debug\net5.0\Razor\Views\Home\Problema2.cshtml.g.cs
