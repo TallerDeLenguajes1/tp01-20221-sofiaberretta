@@ -42,6 +42,11 @@ namespace TrabajoPractico1.Controllers
             return View();
         }
 
+        public IActionResult Problema4()
+        {
+            return View();
+        }
+
         public string Problema1(string num)
         {
             try
@@ -144,7 +149,7 @@ namespace TrabajoPractico1.Controllers
             }
         }
 
-        // CONSUMO DE API
+        //DATOS PARA CONSUMO DE API
         public class Parametros
         {
             [JsonPropertyName("campos")]
@@ -178,9 +183,37 @@ namespace TrabajoPractico1.Controllers
             public int Total { get; set; }
         }
 
-        
-        
-        
+        public string CalculoProblema4(string num1, string num2)
+        {
+            try
+            {
+                int division;
+                int km = int.Parse(num1);
+                int litro = int.Parse(num2);
+
+                division = km / litro;
+                return $"La cantidad de km por litro es {division}";
+            }
+            catch (FormatException)
+            {
+                return "#ERROR No se ha ingresado un numero.";
+            }
+            catch (OverflowException)
+            {
+                return "#ERROR El numero ingresado es demasiado grande.";
+            }
+            catch (DivideByZeroException)
+            {
+                return $"#ERROR No se puede dividir por cero.";
+            }
+            catch (Exception ex)
+            {
+                return $"#ERROR {ex.Message}";
+            }
+
+        }
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
